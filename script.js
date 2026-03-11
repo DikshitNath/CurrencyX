@@ -1,49 +1,44 @@
 const BASE_URL = "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies";
-
-const btn = document.querySelector("form button");
+const btn = document.querySelector("#convert-btn");
 const msg = document.querySelector("#msg");
+const liveRateDisplay = document.querySelector("#live-rate-display");
 const fromCurr = document.querySelector("#from select");
 const toCurr = document.querySelector("#to select");
 
-const updateFlag = (ele) =>{
+const updateFlag = (ele) => {
   let currCode = ele.value;
   let countryCode = countryList[currCode];
   let newSrc = `https://flagsapi.com/${countryCode}/flat/64.png`;
   ele.parentElement.querySelector("img").src = newSrc;
+};
+
+async function fetchAndDisplay(amtVal = 1) {
+  const URL = `${BASE_URL}/${fromCurr.value.toLowerCase()}.json`;
+  try {
+    msg.innerText = "Fetching rate...";
+    let response = await fetch(URL);
+    let data = await response.json();
+    let rate = data[fromCurr.value.toLowerCase()][toCurr.value.toLowerCase()];
+    let finalAmount = (amtVal * rate).toFixed(4);
+    msg.innerText = `${amtVal} ${fromCurr.value} = ${finalAmount} ${toCurr.value}`;
+    liveRateDisplay.innerText = `1 ${fromCurr.value} = ${(1 * rate).toFixed(4)} ${toCurr.value}`;
+  } catch (err) {
+    msg.innerText = "Could not fetch rate. Try again.";
+  }
 }
 
-btn.addEventListener("click", async (e)=>{
+btn.addEventListener("click", async (e) => {
   e.preventDefault();
-  let amount = document.querySelector("#amount input");
-  let amtVal = amount.value;
-
-  if (amtVal == '' || amtVal < 1){
+  let amountInput = document.querySelector("#amount input");
+  let amtVal = parseFloat(amountInput.value);
+  if (!amtVal || amtVal < 1) {
     amtVal = 1;
-    amount.value = "1";
+    amountInput.value = "1";
   }
-
-  const URL = `${BASE_URL}/${fromCurr.value.toLowerCase()}.json`;
-  
-  let response = await fetch(URL);
-  let data = await response.json();
-  let rate = data[fromCurr.value.toLowerCase()][toCurr.value.toLowerCase()]; 
-  
-  let finalAmount = amtVal * rate;
-  msg.innerText = `${amtVal} ${fromCurr.value} = ${finalAmount} ${toCurr.value}`;
+  fetchAndDisplay(amtVal);
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  const menuToggle = document.getElementById("menu-toggle");
-  const mobileMenu = document.getElementById("mobile-menu");
-
-  menuToggle.addEventListener("click", () => {
-      mobileMenu.classList.toggle("hidden");
-      menuToggle.innerHTML = mobileMenu.classList.contains("hidden")
-          ? '<i class="fa-solid fa-bars"></i>'
-          : '<i class="fa-solid fa-times"></i>';
-  });
-});
-
+// Populate dropdowns
 for (let currencyCode in countryList) {
   let countryCode = countryList[currencyCode];
   let countryName = getCountryName(countryCode);
@@ -63,9 +58,12 @@ for (let currencyCode in countryList) {
 
 fromCurr.addEventListener("change", function () {
   updateFlag(this);
+  fetchAndDisplay();
 });
+
 toCurr.addEventListener("change", function () {
   updateFlag(this);
+  fetchAndDisplay();
 });
 
 function getCountryName(code) {
@@ -76,4 +74,5 @@ function getCountryName(code) {
 document.addEventListener("DOMContentLoaded", () => {
   updateFlag(fromCurr);
   updateFlag(toCurr);
+  fetchAndDisplay();
 });

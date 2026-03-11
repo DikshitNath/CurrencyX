@@ -1,118 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CurrencyX</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-  <title>Currency Converter</title>
-  <style>
-    .glass-effect {
-      background: rgba(255, 255, 255, 0.276);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    #menu-toggle.open i {
-  transform: rotate(90deg);
-  transition: transform 0.3s ease-in-out;
-}
-
-#nav-links {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-
-#nav-links.open {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="bg-green-200 w-full flex flex-col justify-between h-screen items-center">
-  <header class="w-full glass-effect h-[12%] flex items-center justify-between px-6 py-4 top-0 z-50 shadow-lg">
-    <div class="container flex justify-between items-center mx-auto">
-      <h1 class="text-3xl font-extrabold text-gray-800 tracking-wide">CurrencyX</h1>
-  
-      <nav class="hidden sm:flex space-x-8 text-lg">
-        <a href="#" class="hover:text-blue-500 transition-all duration-300 font-medium">Home</a>
-        <a href="#" class="hover:text-blue-500 transition-all duration-300 font-medium">About</a>
-        <a href="#" class="hover:text-blue-500 transition-all duration-300 font-medium">Contact</a>
-      </nav>
-  
-      <div id="menu-toggle" class="sm:hidden cursor-pointer text-3xl transition-all duration-300">
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="nav-top">
+      <div class="logo">CurrencyX<span class="logo-dot"></span></div>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Rates</a>
+        <a href="#">About</a>
+        <a href="#" class="nav-cta">Get Started</a>
+      </div>
+      <button id="menu-toggle" aria-label="Open menu">
         <i class="fa-solid fa-bars"></i>
-      </div>
-      
-      <!-- Mobile Menu (Hidden by Default) -->
-      <div id="mobile-menu" class="hidden fixed top-16 right-6 w-48 bg-white shadow-lg rounded-lg py-4 px-6">
-        <a href="#" class="block text-gray-800 text-lg font-medium py-2 hover:text-blue-500 transition-all">Home</a>
-        <a href="#" class="block text-gray-800 text-lg font-medium py-2 hover:text-blue-500 transition-all">About</a>
-        <a href="#" class="block text-gray-800 text-lg font-medium py-2 hover:text-blue-500 transition-all">Contact</a>
-      </div>
+      </button>
+    </div>
+    <div id="mobile-menu">
+      <a href="#">Home</a>
+      <a href="#">Rates</a>
+      <a href="#">About</a>
     </div>
   </header>
-  
-  
-  
-  
-  <div id="container" class="m-4 glass-effect w-full max-w-xs sm:max-w-md h-auto rounded-lg shadow-lg px-4 sm:px-6 py-5 sm:py-7 transition-all duration-300">
-    <div class="text-center">
-      <h1 class="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3">Global Currency Converter</h1>
-      <p class="text-lg sm:text-xl text-gray-500">Convert currencies instantly with real-time rates</p>
-    </div>
-    <form>
-      <div id="amount" class="mb-3 sm:mb-4">
-        <p class="text-gray-700 text-base sm:text-lg font-medium mb-1">Enter Amount:</p>
-        <input placeholder="1" type="text" class="px-3 py-2 w-full border border-gray-300 rounded-md bg-white text-gray-800 focus:ring-2 focus:ring-gray-500 outline-none transition">
-      </div>
-      
-      <p class="font-medium text-base sm:text-lg mt-3 sm:mt-4 mb-2 sm:mb-3 text-gray-800">Select Currency:</p>
-      <div class="grid grid-cols-3 gap-2 sm:gap-5 items-center" id="dropdown">
-        <div id="from" class="text-center">
-          <p class="text-base sm:text-lg font-medium text-gray-700">From</p>
-          <img class="w-8 sm:w-10 mx-auto my-2 border border-gray-300 rounded-md shadow-sm" src="https://flagsapi.com/US/flat/64.png">
-          <select name="from" id="from-currency" class="w-full border border-gray-300 rounded-md px-2 py-1 bg-white text-gray-800 focus:ring-2 focus:ring-gray-500 transition text-sm sm:text-base">
-          </select>
-        </div>
-        <div class="flex items-center justify-center">
-          <i class="fa-solid fa-arrows-rotate text-lg sm:text-2xl text-gray-600"></i>
-        </div>
-        <div id="to" class="text-center">
-          <p class="text-base sm:text-lg font-medium text-gray-700">To</p>
-          <img class="w-8 sm:w-10 mx-auto my-2 border border-gray-300 rounded-md shadow-sm" src="https://flagsapi.com/IN/flat/64.png">
-          <select name="to" id="to-currency" class="w-full border border-gray-300 rounded-md px-2 py-1 bg-white text-gray-800 focus:ring-2 focus:ring-gray-500 transition text-sm sm:text-base">
-          </select>
-        </div>
-      </div>
-      
-      <div id="msg" class="mt-3 text-center px-3 py-2 w-full border border-gray-300 rounded-md bg-white font-semibold text-gray-800 focus:ring-2 focus:ring-gray-500 transition text-sm sm:text-base">1 USD = 85.59671638 INR</div>
 
-      <button class="w-full bg-gray-800 text-white font-medium rounded-md py-2 sm:py-3 mt-3 sm:mt-4 hover:bg-gray-900 focus:ring-2 focus:ring-gray-600 text-sm sm:text-base">
-        Convert
-      </button>
-    </form>
-  </div>
-  
-  <footer class="glass-effect py-6 w-full">
-    <div class="container mx-auto px-6 text-center flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-      <p class="text-gray-700 text-sm sm:text-base font-medium">© 2025 CurrencyX. All rights reserved.</p>
-      <div class="flex space-x-6">
-        <a href="#" class="text-gray-700 hover:text-blue-500 transition transform hover:scale-110">
-          <i class="fab fa-twitter text-lg"></i>
-        </a>
-        <a href="#" class="text-gray-700 hover:text-blue-500 transition transform hover:scale-110">
-          <i class="fab fa-github text-lg"></i>
-        </a>
-        <a href="#" class="text-gray-700 hover:text-blue-500 transition transform hover:scale-110">
-          <i class="fab fa-linkedin text-lg"></i>
-        </a>
+  <!-- MAIN -->
+  <main>
+
+    <!-- Left editorial column -->
+    <div class="left-panel">
+      <div>
+        <div class="eyebrow">Real-time exchange</div>
+        <h1 class="display-heading">
+          The world's<br/>
+          currency,<br/>
+          <em>instantly.</em>
+        </h1>
+        <p class="tagline">
+          Live rates across 150+ currencies. No clutter, no delays — just precise conversions when you need them.
+        </p>
+      </div>
+
+      <div class="rate-ticker">
+        <span class="ticker-label">Live Rate</span>
+        <span class="ticker-value" id="live-rate-display">1 USD = 85.59 INR</span>
+        <span class="ticker-sub">Updated just now &nbsp;·&nbsp; Rates may vary</span>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat">
+          <span class="stat-val">150+</span>
+          <span class="stat-label">Currencies</span>
+        </div>
+        <div class="stat">
+          <span class="stat-val">~0s</span>
+          <span class="stat-label">Latency</span>
+        </div>
+        <div class="stat">
+          <span class="stat-val">Free</span>
+          <span class="stat-label">Always</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right form column -->
+    <div class="right-panel">
+      <div class="form-section-title">Convert</div>
+
+      <form id="converter-form">
+        <div class="field-group">
+          <label class="field-label" for="amount-input">Amount</label>
+          <div class="amount-wrap" id="amount">
+            <input id="amount-input" type="text" placeholder="1.00" />
+            <span class="amount-hint">value</span>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Currency Pair</label>
+          <div class="picker-row">
+
+            <div class="picker-box" id="from">
+              <div class="picker-top">
+                <img id="from-flag" src="https://flagsapi.com/US/flat/64.png" alt="from flag" />
+                <span>From</span>
+              </div>
+              <select name="from" id="from-currency"></select>
+            </div>
+
+            <button type="button" class="swap-btn" title="Swap">
+              <i class="fa-solid fa-arrows-rotate"></i>
+            </button>
+
+            <div class="picker-box" id="to">
+              <div class="picker-top">
+                <img id="to-flag" src="https://flagsapi.com/IN/flat/64.png" alt="to flag" />
+                <span>To</span>
+              </div>
+              <select name="to" id="to-currency"></select>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="result-block">
+          <div class="result-lbl">Result</div>
+          <div class="result-val" id="msg">1 USD = 85.59671638 INR</div>
+        </div>
+
+        <button type="button" class="convert-btn" id="convert-btn">
+          <i class="fa-solid fa-bolt"></i>
+          Convert Now
+        </button>
+      </form>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <p>© 2025 CurrencyX — All rights reserved</p>
+      <div class="social-links">
+        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
       </div>
     </div>
   </footer>
-  
+
+  <script>
+    // Mobile menu
+    const toggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      mobileMenu.classList.toggle('open');
+    });
+    document.addEventListener('click', () => mobileMenu.classList.remove('open'));
+
+    // Swap currencies
+    document.querySelector('.swap-btn').addEventListener('click', () => {
+      const fromSel = document.getElementById('from-currency');
+      const toSel   = document.getElementById('to-currency');
+      const fromVal = fromSel.value;
+      fromSel.value = toSel.value;
+      toSel.value   = fromVal;
+      // trigger flag update if countryList is loaded
+      if (typeof countryList !== 'undefined') {
+        fromSel.dispatchEvent(new Event('change'));
+        toSel.dispatchEvent(new Event('change'));
+      }
+    });
+
+    // Sync the left-panel live rate ticker after each conversion
+    const observer = new MutationObserver(() => {
+      const result = document.getElementById('msg').innerText;
+      if (result) document.getElementById('live-rate-display').innerText = result;
+    });
+    observer.observe(document.getElementById('msg'), { childList: true, subtree: true, characterData: true });
+  </script>
 
   <script src="codes.js"></script>
   <script src="script.js"></script>
